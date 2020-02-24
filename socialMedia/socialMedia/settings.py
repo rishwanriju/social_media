@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stream_django',
     'crispy_forms',
     'userLogin'
 ]
+
+STREAM_API_KEY = 'my_api_key'
+STREAM_API_SECRET = 'my_api_secret_key'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

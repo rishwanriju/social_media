@@ -1,4 +1,15 @@
-{% extends 'base.html' %}
-{% block main %}
-<h1>posts</h1>
-{% endblock %}
+
+{% extends 'postbase.html' %} {% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+        <p class="card-text ">{{ object.content | safe }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from . models import dlogin
+from . models import dlogin,Post
 
 
 class LoginForm(forms.ModelForm):
@@ -50,8 +50,3 @@ class SubscribeForm(ModelForm):
 #    **----------------------------------------------------------------**
 
 
-
-# class PostForm(ModelForm):
-#     class Meta :
-#         model = Posts
-#         fields = ['posts']
