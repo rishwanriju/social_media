@@ -1,0 +1,29 @@
+{% extends  'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="card">
+<div class="card-body">
+<h4 class="card-title">Log in to your account</h4>
+
+<form action="" method="post">
+
+<input type="hidden" name="next" value="{{ next }}">
+
+{{ form|crispy }}
+
+<button type="submit" name="Login"class="btn btn-primary" btn-lg btn-block">Login</button>
+
+{% for message in messages %}
+
+<div>
+    <a href=register>{{ message }}</a>
+</div>
+{% endfor %}
+
+{% csrf_token %}
+</form>
+</div>
+</div>
+
+{% endblock %}
