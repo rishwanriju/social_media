@@ -68,4 +68,3 @@ class PostDetail(DetailView):
             queryset = Post.objects.filter(status=1).order_by('-created_on')
             print(queryset)
             return queryset
-
