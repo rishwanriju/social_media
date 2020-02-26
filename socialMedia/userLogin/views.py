@@ -1,11 +1,13 @@
 from django.views import View
 from django.http import HttpResponse,HttpResponseRedirect
-from django.shortcuts import redirect,render
+from django.shortcuts import redirect,render,get_object_or_404
 from . models import dlogin,Post
-from . forms import LoginForm,RegForm
+from . forms import LoginForm,RegForm,EditPostForm
 from django.views.generic import View,TemplateView,ListView,DetailView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import UpdateView
+
 
 
 
@@ -52,9 +54,7 @@ class PostList(ListView):
     template_name = 'index.html'
     def get_queryset(self):
         if self.request.session.has_key('my_session'):
-            print("sss")
             queryset = Post.objects.filter(status=1).order_by('-created_on')
-            print(queryset)
             return queryset
     
 
@@ -63,8 +63,14 @@ class PostDetail(DetailView):
     template_name = 'post.html'
 
     def get_queryset(self):
-        print("kmoklmk")
         if self.request.session.get('my_session'):
             queryset = Post.objects.filter(status=1).order_by('-created_on')
-            print(queryset)
             return queryset
+
+class PostUpdate(UpdateView):
+    model = Post
+    fields = ['posts']
+    template_name = 'edit.html'
+
+    # def get_object(self):
+    #     return get_object_or_404(Post, pk=self.request.session['my_session'])

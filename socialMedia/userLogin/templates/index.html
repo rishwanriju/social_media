@@ -22,7 +22,7 @@
         <div class="row">
             <div class=" col-md-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome {{ post.object_list.username }} </h3>
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome {{ object_list.username }} </h3>
                     <p class="text-light">
                     </p>
                 </div>
@@ -32,8 +32,21 @@
 </header>
 <div class="container">
     <div class="row">
-        <div class="col-md-12 mt-3 left">
+        <div class="col-md-12 mt-2 left" style="position: relative;">
+
             {% for post in object_list %}
+            <div class="btn align-right" style="right:4px;
+            position: absolute;
+            z-index: 20;">
+                <button class="btn btn-sm" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                            ...
+                </button>
+                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="triggerId">
+                    <a class="dropdown-item" href="/edit/{{post.id}}">Edit</a>
+                    <a class="dropdown-item" href="#">delete</a>
+                </div>
+            </div>
             <div class="card mb-4">
                 <div class="card-body">
                     <p class="card-text text-muted h6">{{ post.author.username }} | {{ post.created_on}} </p>
