@@ -3,11 +3,11 @@ from django.forms import ModelForm
 from . models import dlogin,Post
 
 
-class LoginForm(forms.ModelForm):
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
-    class Meta:
-        model = dlogin
-        fields = ['username','password']
 
 
 class RegForm(forms.ModelForm):

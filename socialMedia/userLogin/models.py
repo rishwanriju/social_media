@@ -12,9 +12,9 @@ class dlogin(models.Model):
         ('female','f')
     )
     
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=50,unique=True)
     password = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
+    email = models.EmailField(max_length=50,unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     dob = models.DateField()
@@ -34,7 +34,7 @@ STATUS = (
 )
 
 class Post(models.Model):
-    author = models.ForeignKey(dlogin, on_delete= models.CASCADE,related_name='blog_posts')
+    author = models.ForeignKey(dlogin, on_delete= models.CASCADE,null=True)
     updated_on = models.DateTimeField(auto_now= True)
     posts = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)

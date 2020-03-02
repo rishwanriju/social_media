@@ -22,7 +22,10 @@
         <div class="row">
             <div class=" col-md-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome {{ object_list.username }} </h3>
+                    <form method="post">{% csrf_token %}
+                        {{ form }} 
+                        <input type="submit" value="Save">
+                    </form>
                     <p class="text-light">
                     </p>
                 </div>
@@ -44,7 +47,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-left" aria-labelledby="triggerId">
                     <a class="dropdown-item" href="/edit/{{post.id}}">Edit</a>
-                    <a class="dropdown-item" href="#">delete</a>
+                    <a class="dropdown-item" href="/delete/{{post.id}}">delete</a>
                 </div>
             </div>
             <div class="card mb-4">
