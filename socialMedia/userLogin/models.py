@@ -34,20 +34,35 @@ STATUS = (
 )
 
 class Post(models.Model):
-    author = models.ForeignKey(dlogin, on_delete= models.CASCADE,null=True)
+    author = models.ForeignKey(dlogin, on_delete= models.CASCADE,null=True,related_name='post_author')
     updated_on = models.DateTimeField(auto_now= True)
     posts = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    post_like   =   models.IntegerField(default=0)
 
+    
     class Meta:
         ordering = ['-created_on']
 
-    def __str__(self):
-        return self.posts
+class post_like(models.Model):
+    user = models.ForeignKey(dlogin,on_delete=models.CASCADE, related_name="post_like") 
+    post = models.ForeignKey(Post,on_delete = models.CASCADE, related_name='user_like' )
 
-    def get_absolute_url(self):
-        return reverse('Posts')
+
+    def save(self,*arg,**kwarg):
+        if not self.pk:
+            self.post.post_like+=1
+            self.post.save()
+            return super().save(arg,**kwarg)
+        else:
+           
+            return self.delete()
+
+    def delete(self):
+        self.post.post_like-=1
+        self.post.save()
+        return super().delete()
 
 
 

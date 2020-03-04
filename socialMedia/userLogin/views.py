@@ -1,9 +1,9 @@
 from django.views import View
 from django.http import HttpResponse,HttpResponseRedirect,Http404
 from django.shortcuts import redirect,render,get_object_or_404
-from . models import dlogin,Post
+from . models import dlogin,Post,post_like
 from . forms import LoginForm,RegForm,EditPostForm
-from django.views.generic import View,TemplateView,ListView,DetailView,CreateView
+from django.views.generic import View,TemplateView,ListView,DetailView,CreateView,RedirectView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView,DeleteView
@@ -143,6 +143,21 @@ class PostCreate(CreateView):
             kwargs['object_list'] = self.model.objects.all()
             return super().get_context_data(**kwargs)
     
-    # @dec
-    # def dispatch(self, *args, **kwargs):
-    #     return super().dispatch(*args, **kwargs)
+class P_likes(View):
+    model = post_like
+    def get(self,request,**arg):
+        user_username=request.session.get('my_session')
+        p=arg['id']
+        post = Post.objects.get(id=p)
+        user= dlogin.objects.get(username=user_username)
+        obj= self.model.objects.filter(user=user,post=post)
+        if obj:
+            obj[0].delete()
+        else:
+            obj1  =  self.model(user=user,post=post)
+            obj1.save()
+        return HttpResponse("<html><script>location.replace(document.referrer);</script></html>")
+
+
+
+

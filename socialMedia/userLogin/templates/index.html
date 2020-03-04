@@ -1,4 +1,4 @@
-{% extends "postbase.html" %} 
+{% extends "postbase.html" %}
 {% block content %}
 <style>
     body {
@@ -6,11 +6,11 @@
         font-size: 18px;
         background-color: #fdfdfd;
     }
-    
+
     .head_text {
         color: white;
     }
-    
+
     .card {
         box-shadow: 0 16px 48px #E3E7EB;
     }
@@ -23,7 +23,7 @@
             <div class=" col-md-8 col-md-10 mx-auto">
                 <div class="site-heading">
                     <form method="post">{% csrf_token %}
-                        {{ form }} 
+                        {{ form }}
                         <input type="submit" value="Save">
                     </form>
                     <p class="text-light">
@@ -42,8 +42,8 @@
             position: absolute;
             z-index: 20;">
                 <button class="btn btn-sm" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                            ...
+                    aria-expanded="false">
+                    ...
                 </button>
                 <div class="dropdown-menu dropdown-menu-left" aria-labelledby="triggerId">
                     <a class="dropdown-item" href="/edit/{{post.id}}">Edit</a>
@@ -54,7 +54,9 @@
                 <div class="card-body">
                     <p class="card-text text-muted h6">{{ post.author.username }} | {{ post.created_on}} </p>
                     <p class="card-text">{{post.posts|slice:":300" }}</p>
-                     </div>
+                    <p class="card-text text-muted h6"> {{ post.post_like }} </p>
+                    <a href="/likes/{{post.id}}"><button class="btn btn-success" >Like</button></a>
+                </div>
             </div>
             {% endfor %}
         </div>
