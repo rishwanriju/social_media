@@ -1,0 +1,18 @@
+{% extends 'postbase.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<form action="" method="post">
+    
+    {% csrf_token %}
+
+    <input type="hidden" name="next" value="{{ next }}">
+
+    {{ lform|crispy }}
+
+<button type="submit" class="btn btn-primary" btn-lg btn-block">comment</button>
+
+ 
+
+</form>
+</form>
+{% endblock %}

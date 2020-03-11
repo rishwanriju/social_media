@@ -1,5 +1,7 @@
 {% extends "postbase.html" %}
 {% block content %}
+
+
 <style>
     body {
         font-family: "Roboto", sans-serif;
@@ -14,6 +16,13 @@
     .card {
         box-shadow: 0 16px 48px #E3E7EB;
     }
+
+    .alignleft {
+	float: left;
+}
+    .alignright {
+	float: right;
+}
 </style>
 
 <header class="masthead">
@@ -22,7 +31,7 @@
         <div class="row">
             <div class=" col-md-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <form method="post">{% csrf_token %}
+                    <form method="post" enctype="multipart/form-data" >{% csrf_token %}
                         {{ form }}
                         <input type="submit" value="Save">
                     </form>
@@ -53,9 +62,21 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <p class="card-text text-muted h6">{{ post.author.username }} | {{ post.created_on}} </p>
-                    <p class="card-text">{{post.posts|slice:":300" }}</p>
-                    <p class="card-text text-muted h6"> {{ post.post_like }} </p>
-                    <a href="/likes/{{post.id}}"><button class="btn btn-success" >Like</button></a>
+                    <p class="card-text">{{post.posts|slice:":300" }}</p> 
+                    {% if post.images %}
+                    <img src="{{ post.images.url }}" width = "100px">
+                    {% endif %}
+                    <div style="clear: both;" >
+                    <p class="card-text text-muted h6 alignleft"> {{ post.post_like }} </p>
+                    <p class="card-text text-muted h6 alignright"> {{ post.post_comments}} </p>
+                </div>
+                <div style="clear: both;" >
+                    
+                    
+                    <a href="/likes/{{post.id}}"><button class="btn btn-success alignleft" >Like</button></a>
+                    <a href="/comments/{{post.id}}"><button class="btn btn-success alignright" >Comment</button></a>
+                    
+                </div>                    
                 </div>
             </div>
             {% endfor %}

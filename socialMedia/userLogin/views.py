@@ -1,8 +1,8 @@
 from django.views import View
 from django.http import HttpResponse,HttpResponseRedirect,Http404
 from django.shortcuts import redirect,render,get_object_or_404
-from . models import dlogin,Post,post_like
-from . forms import LoginForm,RegForm,EditPostForm
+from . models import dlogin,Post,post_like,post_comment
+from . forms import LoginForm,RegForm,CommentForm
 from django.views.generic import View,TemplateView,ListView,DetailView,CreateView,RedirectView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -29,7 +29,6 @@ class login_page (View):
     
     def get (self , request):
         form = self.form_class()
-        print(form)
         return render(request,self.template_name,{'form':form})
 
     def post(self,request):
@@ -130,7 +129,7 @@ class PostDelete(DeleteView):
 
 class PostCreate(CreateView):
     model = Post
-    fields = ['posts']
+    fields = ['posts','images']
     template_name = 'index.html'
 
     def form_valid(self,form):
@@ -142,6 +141,9 @@ class PostCreate(CreateView):
     def get_context_data(self, **kwargs):
             kwargs['object_list'] = self.model.objects.all()
             return super().get_context_data(**kwargs)
+
+    def get_success_url(self):
+            return reverse('Posts')
     
 class P_likes(View):
     model = post_like
@@ -159,5 +161,24 @@ class P_likes(View):
         return HttpResponse("<html><script>location.replace(document.referrer);</script></html>")
 
 
-
+class p_comment(View):
+    model = post_comment
+    form_class = CommentForm
+    template_name = "comment.html"
+    def get(self,request,**arg):
+        lform = self.form_class()
+        return render (request,self.template_name,{'lform':lform})
+    def post(self,request,**arg):
+        print(request.POST)
+        lform = self.form_class(request.POST)
+        if lform.is_valid():
+            user_username=request.session.get('my_session')
+            p=arg['id']
+            user= dlogin.objects.get(username=user_username)
+            post = Post.objects.get(id = p)
+            comments=request.POST['comments']
+            obj=self.model(user=user,post=post,comments=comments)
+            obj.save()
+            return redirect("Posts")
+        return render (request,self.template_name,{'lform':lform})
 

@@ -34,12 +34,17 @@ STATUS = (
 )
 
 class Post(models.Model):
-    author = models.ForeignKey(dlogin, on_delete= models.CASCADE,null=True,related_name='post_author')
+    author = models.ForeignKey(dlogin, on_delete= models.CASCADE,related_name='post_author')
     updated_on = models.DateTimeField(auto_now= True)
-    posts = models.TextField()
+    posts = models.TextField(null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    post_like   =   models.IntegerField(default=0)
+    post_like = models.IntegerField(default=0)
+    post_comments = models.IntegerField(default=0)
+    images = models.ImageField(upload_to='images/',null=True,blank=True)
+
+
+
 
     
     class Meta:
@@ -66,4 +71,28 @@ class post_like(models.Model):
 
 
 
+
+class post_comment(models.Model):
+    user = models.ForeignKey(dlogin,on_delete=models.CASCADE, related_name="post_comment") 
+    post = models.ForeignKey(Post,on_delete = models.CASCADE, related_name='user_comment' )
+    comments=models.CharField(max_length=50)
+
+
+
+
+
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.post.post_comments+=1
+            self.post.save()
+        super().save(*args, **kwargs) 
+
+    def delete(self, using=None, keep_parents=False):
+        self.post.post_comments-=1
+        self.post.save()
+        return super().delete(using=using, keep_parents=keep_parents)
+
+    def __str__(self):
+        return self.comments[:10]
 

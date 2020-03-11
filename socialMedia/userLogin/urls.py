@@ -11,5 +11,7 @@ urlpatterns = [
     path('edit/<int:pk>/',views.PostUpdate.as_view(),name='Edit'),
     path('delete/<int:pk>/',views.PostDelete.as_view(),name='Delete'),
     path('posts/',views.PostCreate.as_view(),name='Posts'),
-    path('likes/<int:id>/',views.P_likes.as_view())
+    path('likes/<int:id>/',views.P_likes.as_view()),
+    path('comments/<int:id>/',views.p_comment.as_view())
+
 ]
